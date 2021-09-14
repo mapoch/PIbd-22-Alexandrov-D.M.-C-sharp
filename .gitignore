@@ -342,7 +342,7 @@ healthchecksdb
 # mojo
 
 *.config
-Properties/*
+.Properties
 *.sln
 *.resx
 *.csproj
