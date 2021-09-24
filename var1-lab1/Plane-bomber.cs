@@ -32,13 +32,13 @@ namespace var1_lab1
 
             Brush brushA = new SolidBrush(AddColor);
 
-            if (Back_state == true)
+            if (Back_state)
             {
                 g.DrawEllipse(penA, new Rectangle(_startX + 90, _startY + 30, 10, 10));
                 g.DrawLine(penA, new Point(_startX + 100, _startY + 35), new Point(_startX + 105, _startY + 35));
             }
 
-            if (Bombs_state == true)
+            if (Bombs_state)
             {
                 Rectangle[] bomb = { new Rectangle(_startX + 30, _startY + 31, 10, 8),
                     new Rectangle(_startX + 50, _startY + 31, 10, 8) };
