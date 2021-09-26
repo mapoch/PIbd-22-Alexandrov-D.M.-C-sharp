@@ -343,6 +343,4 @@ healthchecksdb
 
 *.config
 Properties
-*.sln
 *.resx
-*.csproj
