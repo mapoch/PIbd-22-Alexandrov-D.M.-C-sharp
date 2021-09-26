@@ -12,7 +12,7 @@ namespace var1_lab1
 {
     public partial class FormPlane : Form
     {
-        private Plane_bomber plane;
+        private ITransport plane;
 
         public FormPlane()
         {
@@ -27,11 +27,18 @@ namespace var1_lab1
             pictureBoxPlane.Image = bmp;
         }
 
-        private void buttonCreate_Click(object sender, EventArgs e)
+        private void buttonCreateP_Click(object sender, EventArgs e)
         {
             Random rnd = new Random();
-            plane = new Plane_bomber();
-            plane.Init(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Green, Color.Red, true, true);
+            plane = new Plane(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Green);
+            plane.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxPlane.Width, pictureBoxPlane.Height);
+            Draw();
+        }
+
+        private void buttonCreateB_Click(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+            plane = new Plane_bomber(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Green, Color.Red, true, true);
             plane.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxPlane.Width, pictureBoxPlane.Height);
             Draw();
         }
@@ -56,5 +63,7 @@ namespace var1_lab1
             }
             Draw();
         }
+
+        
     }
 }
