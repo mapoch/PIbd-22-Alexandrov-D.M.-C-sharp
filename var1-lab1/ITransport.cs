@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace var1_lab1
 {
-    interface ITransport
+    public interface ITransport
     {
         void SetPosition(int x, int y, int width, int height);
         

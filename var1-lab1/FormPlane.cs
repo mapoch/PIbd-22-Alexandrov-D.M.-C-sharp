@@ -19,11 +19,17 @@ namespace var1_lab1
             InitializeComponent();
         }
 
-        private void Draw()
+        public void SetPlane(ITransport plane_new)
+        {
+            this.plane = plane_new;
+            Draw();
+        }
+
+            private void Draw()
         {
             Bitmap bmp = new Bitmap(pictureBoxPlane.Width, pictureBoxPlane.Height);
             Graphics gr = Graphics.FromImage(bmp);
-            plane.DrawObject(gr);
+            plane?.DrawObject(gr);
             pictureBoxPlane.Image = bmp;
         }
 
@@ -49,16 +55,16 @@ namespace var1_lab1
             switch (name)
             {
                 case "buttonUp":
-                    plane.MoveObject(Direction.Up);
+                    plane?.MoveObject(Direction.Up);
                     break;
                 case "buttonDown":
-                    plane.MoveObject(Direction.Down);
+                    plane?.MoveObject(Direction.Down);
                     break;
                 case "buttonRight":
-                    plane.MoveObject(Direction.Right);
+                    plane?.MoveObject(Direction.Right);
                     break;
                 case "buttonLeft":
-                    plane.MoveObject(Direction.Left);
+                    plane?.MoveObject(Direction.Left);
                     break;
             }
             Draw();
