@@ -16,7 +16,7 @@ namespace var1_lab1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormFormation());
+            Application.Run(new FormHangar());
         }
     }
 }
