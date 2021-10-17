@@ -7,9 +7,10 @@ using System.Drawing;
 
 namespace var1_lab1
 {
-    class Formation<T> where T : class, ITransport
+    class Hangar<T> where T : class, ITransport
     {
-        private readonly T[] _places;
+        private readonly List<T> _places;
+        private readonly int _maxCount;
 
         private readonly int pictureWidth;
         private readonly int pictureHeight;
@@ -20,26 +21,33 @@ namespace var1_lab1
         private int width;
         private int height;
 
-        public Formation(int picWidth, int picHeight)
+        public Hangar(int picWidth, int picHeight)
         {
             width = picWidth / _placeSizeWidth;
             height = picHeight / _placeSizeHeight;
-            _places = new T[width * height];
+            _maxCount = width * height;
             pictureWidth = picWidth;
             pictureHeight = picHeight;
+            _places = new List<T>();
         }
 
-        public static int operator +(Formation<T> f, T plane)
+        public static int operator +(Hangar<T> f, T plane)
         {
             int i = 0;
             int j = 0;
-
-            while (i < f.height) 
+            while (i < f.height)
             {
                 j = 0;
                 while (j < f.width)
                 {
-                    if (f._places[i*f.width + j] == null)
+                    if (i * f.width + j == f._places.Count && f._places.Count <= f._maxCount)
+                    {
+                        plane.SetPosition(5 + j * f._placeSizeWidth, 5 + i * f._placeSizeHeight, f.pictureWidth, f.pictureHeight);
+                        f._places.Add(plane);
+                        return (i * f.width + j);
+                    }
+                    else
+                    if (i * f.width + j < f._places.Count && f._places[i * f.width + j] == null)
                     {
                         plane.SetPosition(5 + j * f._placeSizeWidth, 5 + i * f._placeSizeHeight, f.pictureWidth, f.pictureHeight);
                         f._places[i * f.width + j] = plane;
@@ -52,9 +60,9 @@ namespace var1_lab1
             return -1;
         }
 
-        public static T operator -(Formation<T> f, int index)
+        public static T operator -(Hangar<T> f, int index)
         {
-            if (index >= f._places.Length || index < 0) return null;
+            if (index >= f._places.Count || index < 0) return null;
             if (f._places[index] != null)
             {
                 T ret_T = f._places[index];
@@ -67,7 +75,7 @@ namespace var1_lab1
         public void Draw(Graphics g)
         {
             DrawMarking(g);
-            for (int i = 0; i < _places.Length; i++)
+            for (int i = 0; i < _places.Count; i++)
             {
                 _places[i]?.DrawObject(g);
             }
