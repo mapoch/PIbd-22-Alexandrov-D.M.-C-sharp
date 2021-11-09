@@ -14,5 +14,7 @@ namespace var1_lab1
         void MoveObject(Direction direction);
         
         void DrawObject(Graphics g);
+
+        void SetMainColor(Color color);
     }
 }

@@ -30,7 +30,6 @@ namespace var1_lab1
         private void InitializeComponent()
         {
             this.buttonSetPlane = new System.Windows.Forms.Button();
-            this.buttonSetBomber = new System.Windows.Forms.Button();
             this.groupUnset = new System.Windows.Forms.GroupBox();
             this.buttonUnset = new System.Windows.Forms.Button();
             this.textBoxUnset = new System.Windows.Forms.TextBox();
@@ -56,16 +55,6 @@ namespace var1_lab1
             this.buttonSetPlane.Text = "Встроить самолёт";
             this.buttonSetPlane.UseVisualStyleBackColor = true;
             this.buttonSetPlane.Click += new System.EventHandler(this.buttonSetPlane_Click);
-            // 
-            // buttonSetBomber
-            // 
-            this.buttonSetBomber.Location = new System.Drawing.Point(906, 387);
-            this.buttonSetBomber.Name = "buttonSetBomber";
-            this.buttonSetBomber.Size = new System.Drawing.Size(165, 47);
-            this.buttonSetBomber.TabIndex = 2;
-            this.buttonSetBomber.Text = "Встроить бомбардировщик";
-            this.buttonSetBomber.UseVisualStyleBackColor = true;
-            this.buttonSetBomber.Click += new System.EventHandler(this.buttonSetBomber_Click);
             // 
             // groupUnset
             // 
@@ -138,7 +127,7 @@ namespace var1_lab1
             this.buttonDeleteHangar.Name = "buttonDeleteHangar";
             this.buttonDeleteHangar.Size = new System.Drawing.Size(150, 42);
             this.buttonDeleteHangar.TabIndex = 4;
-            this.buttonDeleteHangar.Text = "Удалить построение";
+            this.buttonDeleteHangar.Text = "Удалить ангар";
             this.buttonDeleteHangar.UseVisualStyleBackColor = false;
             this.buttonDeleteHangar.Click += new System.EventHandler(this.buttonDeleteHangar_Click);
             // 
@@ -159,7 +148,7 @@ namespace var1_lab1
             this.buttonAddHangar.Name = "buttonAddHangar";
             this.buttonAddHangar.Size = new System.Drawing.Size(150, 42);
             this.buttonAddHangar.TabIndex = 2;
-            this.buttonAddHangar.Text = "Добавить построение";
+            this.buttonAddHangar.Text = "Добавить ангар";
             this.buttonAddHangar.UseVisualStyleBackColor = false;
             this.buttonAddHangar.Click += new System.EventHandler(this.buttonAddHangar_Click);
             // 
@@ -186,11 +175,10 @@ namespace var1_lab1
             this.ClientSize = new System.Drawing.Size(1083, 601);
             this.Controls.Add(this.groupHangar);
             this.Controls.Add(this.groupUnset);
-            this.Controls.Add(this.buttonSetBomber);
             this.Controls.Add(this.buttonSetPlane);
             this.Controls.Add(this.pictureBoxHangar);
             this.Name = "FormHangar";
-            this.Text = "Formation";
+            this.Text = "Hangar";
             this.groupUnset.ResumeLayout(false);
             this.groupUnset.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHangar)).EndInit();
@@ -204,7 +192,6 @@ namespace var1_lab1
 
         private System.Windows.Forms.PictureBox pictureBoxHangar;
         private System.Windows.Forms.Button buttonSetPlane;
-        private System.Windows.Forms.Button buttonSetBomber;
         private System.Windows.Forms.GroupBox groupUnset;
         private System.Windows.Forms.Button buttonUnset;
         private System.Windows.Forms.TextBox textBoxUnset;

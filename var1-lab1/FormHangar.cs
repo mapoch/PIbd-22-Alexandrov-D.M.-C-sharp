@@ -62,6 +62,16 @@ namespace var1_lab1
         {
             if (listBoxHangars.SelectedIndex > -1)
             {
+                var planeConfForm = new FormPlaneConfig();
+                planeConfForm.AddEvent(AddPlane);
+                planeConfForm.Show();
+            }
+        }
+
+        private void buttonSetBomber_Click(object sender, EventArgs e)
+        {
+            if (listBoxHangars.SelectedIndex > -1)
+            {
                 ColorDialog dialog = new ColorDialog();
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -74,14 +84,10 @@ namespace var1_lab1
                     }
                     else
                     {
-                        MessageBox.Show("Построение заполнено");
+                        MessageBox.Show("Ангар заполнен");
                     }
                 }
             }
-        }
-
-        private void buttonSetBomber_Click(object sender, EventArgs e)
-        {
             if (listBoxHangars.SelectedIndex > -1)
             {
                 ColorDialog dialog = new ColorDialog();
@@ -99,7 +105,7 @@ namespace var1_lab1
                         }
                         else
                         {
-                            MessageBox.Show("Построение заполнено");
+                            MessageBox.Show("Ангар заполнен");
                         }
                     }
                 }
@@ -136,7 +142,7 @@ namespace var1_lab1
         {
             if (listBoxHangars.SelectedIndex > -1)
             {
-                if (MessageBox.Show($"Удалить построение { listBoxHangars.SelectedItem.ToString()}?",
+                if (MessageBox.Show($"Удалить ангар { listBoxHangars.SelectedItem.ToString()}?",
                     "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     hangarsCollection.DelParking(listBoxHangars.SelectedItem.ToString());
@@ -150,5 +156,23 @@ namespace var1_lab1
         {
             Draw();
         }
+
+        private void AddPlane(Vehicle plane)
+        {
+            if (plane != null && listBoxHangars.SelectedIndex > -1)
+            {
+                int num = hangarsCollection[listBoxHangars.SelectedItem.ToString()] + plane;
+                if (num != -1)
+                {
+                    MessageBox.Show("Место " + num + " заполнено");
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Ангар заполнен");
+                }
+            }
+        }
+
     }
 }

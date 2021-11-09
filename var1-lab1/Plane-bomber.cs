@@ -55,5 +55,20 @@ namespace var1_lab1
                 g.FillPolygon(brushA, bomb_plumage_2);
             }
         }
+
+        public void SetAddColor (Color color) 
+        {
+            AddColor = color;
+        }
+
+        public void SetCabinState(bool state)
+        {
+            Back_state = state;
+        }
+
+        public void SetBombsState(bool state)
+        {
+            Bombs_state = state;
+        }
     }
 }
