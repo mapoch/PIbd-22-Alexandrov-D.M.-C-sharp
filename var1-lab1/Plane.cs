@@ -12,6 +12,8 @@ namespace var1_lab1
         protected readonly int planeWidth = 95;
         protected readonly int planeHeight = 70;
 
+        protected readonly char separator = ';';
+
         public Plane(int maxSpeed, int load_Weight, Color mainColor)
         {
             Max_Speed = maxSpeed;
@@ -26,6 +28,17 @@ namespace var1_lab1
             MainColor = mainColor;
             this.planeWidth = plane_Width;
             this.planeHeight = plane_Height;
+        }
+
+        public Plane(string info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 3)
+            {
+                Max_Speed = Convert.ToInt32(strs[0]);
+                Load_Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+            }
         }
 
         public override void MoveObject(Direction direction)
@@ -88,6 +101,11 @@ namespace var1_lab1
             g.DrawPolygon(penM, tail);
 
             g.DrawPolygon(penM, body);
+        }
+
+        public override string ToString()
+        {
+            return $"{Max_Speed}{separator}{Load_Weight}{separator}{MainColor.Name}";
         }
     }
 }

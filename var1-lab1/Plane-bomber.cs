@@ -15,13 +15,26 @@ namespace var1_lab1
         public bool Bombs_state { private set; get; }
         public bool Back_state { private set; get; }
 
-        public Plane_bomber(int max_Speed, int load_Weight, Color mainColor, Color addColor,
-            bool bombs_state, bool back_state) :
+        public Plane_bomber(int max_Speed, int load_Weight, Color mainColor, Color addColor, bool bombs_state, bool back_state) :
             base(max_Speed, load_Weight, mainColor, 105, 70)
         {
             AddColor = addColor;
             Bombs_state = bombs_state;
             Back_state = back_state;
+        }
+
+        public Plane_bomber(string info) : base(info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 6)
+            {
+                Max_Speed = Convert.ToInt32(strs[0]);
+                Load_Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+                AddColor = Color.FromName(strs[3]);
+                Back_state = Convert.ToBoolean(strs[4]);
+                Bombs_state = Convert.ToBoolean(strs[5]);
+            }
         }
 
         public override void DrawObject(Graphics g)
@@ -69,6 +82,12 @@ namespace var1_lab1
         public void SetBombsState(bool state)
         {
             Bombs_state = state;
+        }
+
+        public override string ToString()
+        {
+            return $"{Max_Speed}{separator}{Load_Weight}{separator}{MainColor.Name}" +
+                $"{separator}{AddColor.Name}{separator}{Back_state}{separator}{Bombs_state}";
         }
     }
 }
