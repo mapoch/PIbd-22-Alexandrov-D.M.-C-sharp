@@ -135,6 +135,7 @@ namespace var1_lab1
 
         private void checkBox_CheckedChanged(object sender, EventArgs e)
         {
+            if (plane == null) return;
             if (plane is Plane_bomber)
             {
                 if (checkBoxCabin.Checked)
@@ -159,6 +160,7 @@ namespace var1_lab1
 
         private void numeric_ValueChanged(object sender, EventArgs e)
         {
+            if (plane == null) return;
             if (numericUpDownSpeed.Value > 0)
             {
                 plane.SetMaxSpeed((int) numericUpDownSpeed.Value);
