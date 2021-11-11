@@ -30,5 +30,20 @@ namespace var1_lab1
         }
         public abstract void DrawObject(Graphics g);
         public abstract void MoveObject(Direction direction);
+
+        public void SetMainColor(Color color) 
+        {
+            MainColor = color;
+        }
+
+        public void SetMaxSpeed(int value)
+        {
+            Max_Speed = value;
+        }
+
+        public void SetLoadWeight(int value)
+        {
+            Load_Weight = value;
+        }
     }
 }

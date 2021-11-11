@@ -25,7 +25,7 @@ namespace var1_lab1
             Draw();
         }
 
-            private void Draw()
+        private void Draw()
         {
             Bitmap bmp = new Bitmap(pictureBoxPlane.Width, pictureBoxPlane.Height);
             Graphics gr = Graphics.FromImage(bmp);
@@ -69,7 +69,5 @@ namespace var1_lab1
             }
             Draw();
         }
-
-        
     }
 }
