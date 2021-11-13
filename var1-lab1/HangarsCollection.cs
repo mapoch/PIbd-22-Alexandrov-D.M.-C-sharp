@@ -86,21 +86,11 @@ namespace var1_lab1
             {
                 return false;
             }
-            string bufferTextFromFile = "";
-            StreamReader sr;
-            using (FileStream fs = new FileStream(filename, FileMode.Open))
-            {
-                sr = new StreamReader(fs, Encoding.UTF8);
-                string line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    bufferTextFromFile += line + Environment.NewLine;
-                }
-                sr.Close();
-            }
-            bufferTextFromFile = bufferTextFromFile.Replace("\r", "");
-            var strs = bufferTextFromFile.Split('\n');
-            if (strs[0].Contains("HangarsCollection"))
+            StreamReader sr = new StreamReader(filename, Encoding.UTF8);
+
+            string line = sr.ReadLine();
+
+            if (line.Contains("HangarsCollection"))
             {
                 hangarStages.Clear();
             }
@@ -108,27 +98,29 @@ namespace var1_lab1
             {
                 return false;
             }
+
             Vehicle plane = null;
             string key = string.Empty;
-            for (int i = 1; i < strs.Length; ++i)
+
+            while((line = sr.ReadLine()) != null)
             {
-                if (strs[i].Contains("Hangar"))
+                if (line.Contains("Hangar"))
                 {
-                    key = strs[i].Split(separator)[1];
+                    key = line.Split(separator)[1];
                     hangarStages.Add(key, new Hangar<Vehicle>(pictureWidth, pictureHeight));
                     continue;
                 }
-                if (string.IsNullOrEmpty(strs[i]))
+                if (string.IsNullOrEmpty(line))
                 {
                     continue;
                 }
-                if (strs[i].Split(separator)[0] == "Plane")
+                if (line.Split(separator)[0] == "Plane")
                 {
-                    plane = new Plane(strs[i].Split(separator)[1]);
+                    plane = new Plane(line.Split(separator)[1]);
                 }
-                else if (strs[i].Split(separator)[0] == "Plane_bomber")
+                else if (line.Split(separator)[0] == "Plane_bomber")
                 {
-                    plane = new Plane_bomber(strs[i].Split(separator)[1]);
+                    plane = new Plane_bomber(line.Split(separator)[1]);
                 }
                 var result = hangarStages[key] + plane;
                 if (result == -1)
