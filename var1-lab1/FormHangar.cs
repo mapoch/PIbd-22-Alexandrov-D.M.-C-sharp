@@ -134,7 +134,7 @@ namespace var1_lab1
                 MessageBox.Show("Введите название парковки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            hangarsCollection.AddParking(textBoxHangarName.Text);
+            hangarsCollection.AddHangar(textBoxHangarName.Text);
             ReloadLevels();
         }
 
@@ -145,7 +145,7 @@ namespace var1_lab1
                 if (MessageBox.Show($"Удалить ангар { listBoxHangars.SelectedItem.ToString()}?",
                     "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    hangarsCollection.DelParking(listBoxHangars.SelectedItem.ToString());
+                    hangarsCollection.DelHangar(listBoxHangars.SelectedItem.ToString());
                     ReloadLevels();
                 }
                 Draw();
@@ -174,5 +174,36 @@ namespace var1_lab1
             }
         }
 
+        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (hangarsCollection.SaveData(saveFileDialog.FileName))
+                {
+                    MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Не сохранилось", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void загрузитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (hangarsCollection.LoadData(openFileDialog.FileName))
+                {
+                    MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ReloadLevels();
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

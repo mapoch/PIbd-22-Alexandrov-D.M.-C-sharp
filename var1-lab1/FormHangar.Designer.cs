@@ -41,14 +41,21 @@ namespace var1_lab1
             this.buttonAddHangar = new System.Windows.Forms.Button();
             this.textBoxHangarName = new System.Windows.Forms.TextBox();
             this.labelHangarName = new System.Windows.Forms.Label();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.загрузитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupUnset.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHangar)).BeginInit();
             this.groupHangar.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonSetPlane
             // 
-            this.buttonSetPlane.Location = new System.Drawing.Point(906, 325);
+            this.buttonSetPlane.Location = new System.Drawing.Point(906, 401);
             this.buttonSetPlane.Name = "buttonSetPlane";
             this.buttonSetPlane.Size = new System.Drawing.Size(165, 47);
             this.buttonSetPlane.TabIndex = 1;
@@ -99,9 +106,9 @@ namespace var1_lab1
             // pictureBoxHangar
             // 
             this.pictureBoxHangar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.pictureBoxHangar.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxHangar.Location = new System.Drawing.Point(0, 31);
             this.pictureBoxHangar.Name = "pictureBoxHangar";
-            this.pictureBoxHangar.Size = new System.Drawing.Size(900, 601);
+            this.pictureBoxHangar.Size = new System.Drawing.Size(900, 570);
             this.pictureBoxHangar.TabIndex = 0;
             this.pictureBoxHangar.TabStop = false;
             // 
@@ -113,7 +120,7 @@ namespace var1_lab1
             this.groupHangar.Controls.Add(this.buttonAddHangar);
             this.groupHangar.Controls.Add(this.textBoxHangarName);
             this.groupHangar.Controls.Add(this.labelHangarName);
-            this.groupHangar.Location = new System.Drawing.Point(906, 12);
+            this.groupHangar.Location = new System.Drawing.Point(906, 31);
             this.groupHangar.Name = "groupHangar";
             this.groupHangar.Size = new System.Drawing.Size(165, 291);
             this.groupHangar.TabIndex = 4;
@@ -168,6 +175,49 @@ namespace var1_lab1
             this.labelHangarName.TabIndex = 0;
             this.labelHangarName.Text = "Название:";
             // 
+            // menuStrip
+            // 
+            this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.файлToolStripMenuItem});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(1083, 28);
+            this.menuStrip.TabIndex = 5;
+            this.menuStrip.Text = "menuStrip1";
+            // 
+            // файлToolStripMenuItem
+            // 
+            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сохранитьToolStripMenuItem,
+            this.загрузитьToolStripMenuItem});
+            this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(59, 24);
+            this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // сохранитьToolStripMenuItem
+            // 
+            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
+            // 
+            // загрузитьToolStripMenuItem
+            // 
+            this.загрузитьToolStripMenuItem.Name = "загрузитьToolStripMenuItem";
+            this.загрузитьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.загрузитьToolStripMenuItem.Text = "Загрузить";
+            this.загрузитьToolStripMenuItem.Click += new System.EventHandler(this.загрузитьToolStripMenuItem_Click);
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "txt file | *.txt";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "txt file | *.txt";
+            // 
             // FormHangar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -177,6 +227,8 @@ namespace var1_lab1
             this.Controls.Add(this.groupUnset);
             this.Controls.Add(this.buttonSetPlane);
             this.Controls.Add(this.pictureBoxHangar);
+            this.Controls.Add(this.menuStrip);
+            this.MainMenuStrip = this.menuStrip;
             this.Name = "FormHangar";
             this.Text = "Hangar";
             this.groupUnset.ResumeLayout(false);
@@ -184,7 +236,10 @@ namespace var1_lab1
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHangar)).EndInit();
             this.groupHangar.ResumeLayout(false);
             this.groupHangar.PerformLayout();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -202,5 +257,11 @@ namespace var1_lab1
         private System.Windows.Forms.ListBox listBoxHangars;
         private System.Windows.Forms.Button buttonAddHangar;
         private System.Windows.Forms.TextBox textBoxHangarName;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem загрузитьToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
