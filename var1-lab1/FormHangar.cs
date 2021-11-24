@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,12 +14,15 @@ namespace var1_lab1
     public partial class FormHangar : Form
     {
         private readonly HangarsCollection hangarsCollection;
+        private readonly Logger logger;
+
         public FormHangar()
         {
             InitializeComponent();
             hangarsCollection = new HangarsCollection(pictureBoxHangar.Width,
             pictureBoxHangar.Height);
             Draw();
+            logger = LogManager.GetCurrentClassLogger();
         }
 
         private void ReloadLevels()
@@ -68,62 +72,35 @@ namespace var1_lab1
             }
         }
 
-        private void buttonSetBomber_Click(object sender, EventArgs e)
-        {
-            if (listBoxHangars.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    var plane = new Plane(100, 1000, dialog.Color);
-                    int num = hangarsCollection[listBoxHangars.SelectedItem.ToString()] + plane;
-                    if (num != -1)
-                    {
-                        MessageBox.Show("Место " + num + " заполнено");
-                        Draw();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ангар заполнен");
-                    }
-                }
-            }
-            if (listBoxHangars.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    ColorDialog dialogDop = new ColorDialog();
-                    if (dialogDop.ShowDialog() == DialogResult.OK)
-                    {
-                        var plane = new Plane_bomber(100, 1000, dialog.Color, dialogDop.Color, true, true);
-                        int num = hangarsCollection[listBoxHangars.SelectedItem.ToString()] + plane;
-                        if (num != -1)
-                        {
-                            MessageBox.Show("Место " + num + " заполнено");
-                            Draw();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Ангар заполнен");
-                        }
-                    }
-                }
-            }
-        }
-
         private void buttonUnsetPlane_Click(object sender, EventArgs e)
         {
-            if (textBoxUnset.Text != "")
+            if (listBoxHangars.SelectedIndex > -1 && textBoxUnset.Text != "")
             {
-                var plane = hangarsCollection[listBoxHangars.SelectedItem.ToString()] - Convert.ToInt32(textBoxUnset.Text);
-                if (plane != null)
+                try
                 {
-                    FormPlane form = new FormPlane();
-                    form.SetPlane(plane);
-                    form.ShowDialog();
+                    var plane = hangarsCollection[listBoxHangars.SelectedItem.ToString()] - Convert.ToInt32(textBoxUnset.Text);
+                    if (plane != null)
+                    {
+                        FormPlane form = new FormPlane();
+                        form.SetPlane(plane);
+                        form.ShowDialog();
+                        logger.Info($"Изъят самолёт {plane} с места {textBoxUnset.Text}");
+                        Draw();
+                    }
                 }
-                Draw();
+                catch (HangarNotFoundException ex)
+                {
+                    logger.Warn("Ошибка отсутствия самолёта при попытке удалить самолёт");
+                    MessageBox.Show(ex.Message, "Не найдено", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    logger.Warn("Неизвестная ошибка при попытке удалить самолёт");
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
             }
         }
 
@@ -131,9 +108,10 @@ namespace var1_lab1
         {
             if (string.IsNullOrEmpty(textBoxHangarName.Text))
             {
-                MessageBox.Show("Введите название парковки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Введите название ангара", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            logger.Info($"Добавили ангар {textBoxHangarName.Text}");
             hangarsCollection.AddHangar(textBoxHangarName.Text);
             ReloadLevels();
         }
@@ -145,6 +123,7 @@ namespace var1_lab1
                 if (MessageBox.Show($"Удалить ангар { listBoxHangars.SelectedItem.ToString()}?",
                     "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+                    logger.Info($"Удалили ангар {listBoxHangars.SelectedItem.ToString()}");
                     hangarsCollection.DelHangar(listBoxHangars.SelectedItem.ToString());
                     ReloadLevels();
                 }
@@ -154,6 +133,7 @@ namespace var1_lab1
 
         private void listBoxHangars_SelectedIndexChanged(object sender, EventArgs e)
         {
+            logger.Info($"Перешли на ангар {listBoxHangars.SelectedItem.ToString()}");
             Draw();
         }
 
@@ -161,15 +141,28 @@ namespace var1_lab1
         {
             if (plane != null && listBoxHangars.SelectedIndex > -1)
             {
-                int num = hangarsCollection[listBoxHangars.SelectedItem.ToString()] + plane;
-                if (num != -1)
+                try
                 {
-                    MessageBox.Show("Место " + num + " заполнено");
+                    if (hangarsCollection[listBoxHangars.SelectedItem.ToString()] + plane > -1)
+                    {
+                        Draw();
+                        logger.Info($"Добавлен самолёт {plane}");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Самолёт не удалось разместить");
+                    }
                     Draw();
                 }
-                else
+                catch (HangarOverflowException ex)
                 {
-                    MessageBox.Show("Ангар заполнен");
+                    logger.Warn("Ошибка переполнения ангара при попытке добавить самолёт");
+                    MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    logger.Warn("Неизвестная ошибка при попытке добавить самолёт");
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -178,13 +171,16 @@ namespace var1_lab1
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (hangarsCollection.SaveData(saveFileDialog.FileName))
+                try
                 {
+                    hangarsCollection.SaveData(saveFileDialog.FileName);
                     MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    logger.Info("Сохранено в файл " + saveFileDialog.FileName);
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Не сохранилось", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn("Неизвестная ошибка при попытке сохранения");
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -193,15 +189,19 @@ namespace var1_lab1
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (hangarsCollection.LoadData(openFileDialog.FileName))
+                try
                 {
+                    hangarsCollection.LoadData(openFileDialog.FileName);
                     MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    logger.Info("Загружено из файла " + openFileDialog.FileName);
                     ReloadLevels();
                     Draw();
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn("Неизвестная ошибка при попытке загрузки");
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при загрузке", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
         }

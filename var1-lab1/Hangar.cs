@@ -33,6 +33,11 @@ namespace var1_lab1
 
         public static int operator +(Hangar<T> f, T plane)
         {
+            if (f._places.Count >= f._maxCount)
+            {
+                throw new HangarOverflowException();
+            }
+
             int i = 0;
             int j = 0;
             while (i < f.height)
@@ -62,6 +67,11 @@ namespace var1_lab1
 
         public static T operator -(Hangar<T> f, int index)
         {
+            if (index < 0 || index > f._places.Count)
+            {
+                throw new HangarNotFoundException(index);
+            }
+
             if (index >= f._places.Count || index < 0) return null;
             if (f._places[index] != null)
             {
