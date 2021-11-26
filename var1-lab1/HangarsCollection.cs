@@ -45,7 +45,7 @@ namespace var1_lab1
             }
         }
 
-        public bool SaveData(string filename)
+        public void SaveData(string filename)
         {
             if (File.Exists(filename))
             {
@@ -76,15 +76,14 @@ namespace var1_lab1
                     }
                 }
                 sw.Close();
-                return true;
             }
         }
 
-        public bool LoadData(string filename)
+        public void LoadData(string filename)
         {
             if (!File.Exists(filename))
             {
-                return false;
+                throw new FileNotFoundException();
             }
             StreamReader sr = new StreamReader(filename, Encoding.UTF8);
 
@@ -96,7 +95,7 @@ namespace var1_lab1
             }
             else
             {
-                return false;
+                throw new ArgumentException();
             }
 
             Vehicle plane = null;
@@ -125,10 +124,9 @@ namespace var1_lab1
                 var result = hangarStages[key] + plane;
                 if (result == -1)
                 {
-                    return false;
+                    throw new HangarOverflowException();
                 }
             }
-            return true;
         }
     }
 }
