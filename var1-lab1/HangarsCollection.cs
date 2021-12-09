@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -58,8 +59,7 @@ namespace var1_lab1
                 foreach (var level in hangarStages)
                 {
                     sw.Write($"Hangar{separator}{level.Key}{Environment.NewLine}");
-                    ITransport plane = null;
-                    for (int i = 0; (plane = level.Value.GetNext(i)) != null; i++)
+                    foreach (ITransport plane in level.Value)
                     {
                         if (plane != null)
                         {

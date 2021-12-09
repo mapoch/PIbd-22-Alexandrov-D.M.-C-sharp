@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace var1_lab1
 {
-    public class Plane : Vehicle
+    public class Plane : Vehicle, IEquatable<Plane>
     {
         protected readonly int planeWidth = 95;
         protected readonly int planeHeight = 70;
@@ -106,6 +106,47 @@ namespace var1_lab1
         public override string ToString()
         {
             return $"{Max_Speed}{separator}{Load_Weight}{separator}{MainColor.Name}";
+        }
+
+        public bool Equals(Plane other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (GetType().Name != other.GetType().Name)
+            {
+                return false;
+            }
+            if (Max_Speed != other.Max_Speed)
+            {
+                return false;
+            }
+            if (Load_Weight != other.Load_Weight)
+            {
+                return false;
+            }
+            if (MainColor != other.MainColor)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is Plane planeObj))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(planeObj);
+            }
         }
     }
 }

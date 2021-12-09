@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Drawing;
 
 namespace var1_lab1
 {
-    class Hangar<T> where T : class, ITransport
+    class Hangar<T> : IEnumerator<T>, IEnumerable<T> where T : class, ITransport
     {
         private readonly List<T> _places;
         private readonly int _maxCount;
@@ -21,6 +22,12 @@ namespace var1_lab1
         private int width;
         private int height;
 
+        private int currentIndex;
+
+        public T Current => _places[currentIndex];
+
+        object IEnumerator.Current => _places[currentIndex];
+
         public Hangar(int picWidth, int picHeight)
         {
             width = picWidth / _placeSizeWidth;
@@ -29,6 +36,7 @@ namespace var1_lab1
             pictureWidth = picWidth;
             pictureHeight = picHeight;
             _places = new List<T>();
+            currentIndex = -1;
         }
 
         public static int operator +(Hangar<T> f, T plane)
@@ -36,6 +44,10 @@ namespace var1_lab1
             if (f._places.Count >= f._maxCount)
             {
                 throw new HangarOverflowException();
+            }
+            if (f._places.Contains(plane))
+            {
+                throw new HangarAlreadyHaveException();
             }
 
             int i = 0;
@@ -47,14 +59,12 @@ namespace var1_lab1
                 {
                     if (i * f.width + j == f._places.Count && f._places.Count <= f._maxCount)
                     {
-                        plane.SetPosition(5 + j * f._placeSizeWidth, 5 + i * f._placeSizeHeight, f.pictureWidth, f.pictureHeight);
                         f._places.Add(plane);
                         return (i * f.width + j);
                     }
                     else
                     if (i * f.width + j < f._places.Count && f._places[i * f.width + j] == null)
                     {
-                        plane.SetPosition(5 + j * f._placeSizeWidth, 5 + i * f._placeSizeHeight, f.pictureWidth, f.pictureHeight);
                         f._places[i * f.width + j] = plane;
                         return (i * f.width + j);
                     }
@@ -62,6 +72,7 @@ namespace var1_lab1
                 }
                 i++;
             }
+
             return -1;
         }
 
@@ -87,6 +98,7 @@ namespace var1_lab1
             DrawMarking(g);
             for (int i = 0; i < _places.Count; i++)
             {
+                _places[i]?.SetPosition(5 + (i % width) * _placeSizeWidth, 5 + (i / width) * _placeSizeHeight, pictureWidth, pictureHeight);
                 _places[i]?.DrawObject(g);
             }
         }
@@ -114,6 +126,31 @@ namespace var1_lab1
             }
 
             return _places[index];
+        }
+
+        public void Sort() => _places.Sort((IComparer<T>)new PlaneComparer());
+
+        public void Dispose() { }
+
+        public bool MoveNext()
+        {
+            currentIndex++;
+            return (currentIndex < _places.Count());
+        }
+
+        public void Reset()
+        {
+            currentIndex = -1;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return this;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this;
         }
     }
 }
