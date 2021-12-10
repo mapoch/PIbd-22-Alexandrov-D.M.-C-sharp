@@ -9,7 +9,6 @@ namespace var1_lab1
 {
     class Plane_bomber : Plane
     {
-       
         public Color AddColor { private set; get; }
 
         public bool Bombs_state { private set; get; }
@@ -88,6 +87,59 @@ namespace var1_lab1
         {
             return $"{Max_Speed}{separator}{Load_Weight}{separator}{MainColor.Name}" +
                 $"{separator}{AddColor.Name}{separator}{Back_state}{separator}{Bombs_state}";
+        }
+
+        public bool Equals(Plane_bomber other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (GetType().Name != other.GetType().Name)
+            {
+                return false;
+            }
+            if (Max_Speed != other.Max_Speed)
+            {
+                return false;
+            }
+            if (Load_Weight != other.Load_Weight)
+            {
+                return false;
+            }
+            if (MainColor != other.MainColor)
+            {
+                return false;
+            }
+            if (AddColor != other.AddColor)
+            {
+                return false;
+            }
+            if (Back_state != other.Back_state)
+            {
+                return false;
+            }
+            if (Bombs_state != other.Bombs_state)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is Plane_bomber planebObj))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(planebObj);
+            }
         }
     }
 }

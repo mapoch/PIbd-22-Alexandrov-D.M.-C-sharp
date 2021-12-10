@@ -159,6 +159,11 @@ namespace var1_lab1
                     logger.Warn("Ошибка переполнения ангара при попытке добавить самолёт");
                     MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                catch (HangarAlreadyHaveException ex)
+                {
+                    logger.Warn("Ошибка дублирования самолёта при попытке добавить самолёт");
+                    MessageBox.Show(ex.Message, "Дублирование", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 catch (Exception ex)
                 {
                     logger.Warn("Неизвестная ошибка при попытке добавить самолёт");
@@ -203,6 +208,16 @@ namespace var1_lab1
                     MessageBox.Show(ex.Message, "Неизвестная ошибка при загрузке", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+            }
+        }
+
+        private void buttonSort_Click(object sender, EventArgs e)
+        {
+            if (listBoxHangars.SelectedIndex > -1)
+            {
+                hangarsCollection[listBoxHangars.SelectedItem.ToString()].Sort();
+                Draw();
+                logger.Info("Сортировка уровней");
             }
         }
     }
